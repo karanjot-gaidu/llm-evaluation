@@ -1,5 +1,6 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { sql } from '@vercel/postgres';
 
 interface TestCase {
   input: string;

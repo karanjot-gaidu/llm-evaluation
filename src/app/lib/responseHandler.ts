@@ -1,6 +1,7 @@
 // responseHandler.ts
 import Groq from 'groq-sdk';
 import { genAI } from './gemini-settings';
+import { insertEvaluationResults, insertExperiment, insertTestCase } from '../utils/db.queries';
 
 interface ModelResponse {
   model: string;
@@ -22,6 +23,8 @@ export async function handleTestCases(systemRole: string, testCases: any[]): Pro
   const modelResponses: ModelResponse[][] = [];
   const modelEvaluations: EvaluationResponse[][] = [];
 
+  const experimentId = await insertExperiment(systemRole);
+
   for (const testCase of testCases) {
     const modelResponsesForTestCase: ModelResponse[] = [];
     const modelEvaluationsForTestCase: EvaluationResponse[] = [];
@@ -40,20 +43,7 @@ export async function handleTestCases(systemRole: string, testCases: any[]): Pro
       const answer = response.choices[0].message.content ?? '';
       modelResponsesForTestCase.push({ model, answer });
 
-    //   const evaluation = await groq.chat.completions.create({
-    //     messages: [
-    //       { 
-    //         role: 'system', 
-    //         content: `You are an evaluator that checks answers based on the following criteria: Accuracy, Clarity, Relevancy. Only return the answer in JSON format: {Accuracy: x, Clarity: y, Relevancy: z} with x,y,z being a number between 0 to 1 depending on the evaluation. Do not include any other text` 
-    //       },
-    //       { 
-    //         role: 'user', 
-    //         content: `Generated Answer: ${answer}\n\nReference Answer: ${testCase.referenceAnswer}` 
-    //       },
-    //     ],
-    //     model: 'llama-3.3-70b-versatile',
-    //   });
-
+      // Evaluation
       const evalModel = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
         systemInstruction: "You are an evaluator that checks answers based on the following criteria: Accuracy, Clarity, Relevancy. Only return the answer in JSON format: {Accuracy: x, Clarity: y, Relevancy: z} with x,y,z being a number between 0 to 1 depending on the evaluation. Do not include any other text."
@@ -104,6 +94,15 @@ export async function handleTestCases(systemRole: string, testCases: any[]): Pro
 
     modelResponses.push(modelResponsesForTestCase);
     modelEvaluations.push(modelEvaluationsForTestCase);
+
+
+  }
+  let idx = 0;
+  for (const testCase of testCases) {
+    const testId = await insertTestCase(experimentId, testCase.input, testCase.referenceAnswer, modelResponses[idx][0].answer, modelResponses[idx][1].answer);
+    await insertEvaluationResults(testId, modelResponses[idx][0].model, modelEvaluations[idx][0].Accuracy, modelEvaluations[idx][0].Clarity, modelEvaluations[idx][0].Relevancy);
+    await insertEvaluationResults(testId, modelResponses[idx][1].model, modelEvaluations[idx][1].Accuracy, modelEvaluations[idx][1].Clarity, modelEvaluations[idx][1].Relevancy);
+    idx++;
   }
 
   return { modelResponses, modelEvaluations };
