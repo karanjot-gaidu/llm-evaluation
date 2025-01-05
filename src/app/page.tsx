@@ -6,6 +6,12 @@ interface TestCase {
   referenceAnswer: string;
 }
 
+interface EvaluationResponse {
+  Accuracy: number;
+  Clarity: number;
+  Relevancy: number;
+}
+
 interface ModelResponse {
   model: string; 
   answer: string;
@@ -16,7 +22,7 @@ export default function Home() {
   const [testCases, setTestCases] = useState<TestCase[]>([
     { input: '', referenceAnswer: '' }, // Example test case
   ]);
-  const [evaluationResults, setEvaluationResults] = useState<string[][]>([]); 
+  const [evaluationResults, setEvaluationResults] = useState<EvaluationResponse[][]>([]); 
   const [generatedResults, setGeneratedResults] = useState<ModelResponse[][]>([]); 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -116,7 +122,12 @@ export default function Home() {
           <ul>
             {modelEvaluations.map((evaluation, modelIndex) => (
               <li key={modelIndex}>
-                **Model {modelIndex + 1}:** {evaluation} 
+                **Model {modelIndex + 1}:** 
+                <ul>
+                  <li><strong>Accuracy:</strong> {evaluation.Accuracy}</li>
+                  <li><strong>Clarity:</strong> {evaluation.Clarity}</li>
+                  <li><strong>Relevancy:</strong> {evaluation.Relevancy}</li>
+                </ul>
               </li>
             ))}
           </ul>
