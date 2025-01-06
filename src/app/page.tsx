@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react';
 import {Loader2} from 'lucide-react';
 import { ResultsSection } from './components/ui/results';
-// import testCard from './components/ui/testCard';
+import {useRouter} from 'next/navigation';
+import Link from 'next/link';
 
 interface TestCase {
   input: string;
@@ -32,6 +33,11 @@ export default function Home() {
   const handleAddTestCase = () => {
     setTestCases([...testCases, { input: '', referenceAnswer: '' }]);
   };
+
+  const router = useRouter();
+  const handleViewAllExperiments = async () => {
+    // router.push('/experiments');
+  }
 
   const evaluateTestCases = async () => {
     setLoading(true);
@@ -63,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 font-fira">
       {/* Navigation */}
       <nav className="bg-gray-800 fixed top-0 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,9 +78,11 @@ export default function Home() {
               <a href="/" className="text-xl font-bold text-white">LLM Eval</a>
             </div>
             <div className="flex space-x-4">
-              <a href="#" className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors">
-                Show All Experiments
-              </a>
+              <Link href="/experiments" legacyBehavior>
+                <a className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors">
+                  Show All Experiments
+                </a>
+              </Link>
               <a href="#" onClick={() => (window.location.href = window.location.href)} className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 transition-colors">
                 Create New Experiment
               </a>
@@ -84,13 +92,13 @@ export default function Home() {
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-xl font-bold text-gray-900 mb-6">Dashboard</h1>
+      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-20">
+        <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
 
         {/* System Role Section */}
         <div className="bg-white rounded-lg shadow p-6 mb-6">
           <h3 className="text-xl font-semibold text-gray-900 mb-4">Experiment</h3>
-          <label className="block text-sm font-md text-gray-700 mb-2">System Role:</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">System Role:</label>
           <textarea
             value={systemRole}
             onChange={(e) => setSystemRole(e.target.value)}

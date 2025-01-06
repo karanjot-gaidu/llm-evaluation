@@ -1,4 +1,4 @@
-function groupExperimentData(data: any[]) {
+export async function groupExperimentData(data: any[]) {
     const grouped = data.reduce((acc, row) => {
         const { experiment_id, experiment_name, system_prompt, experiment_created_at, ...rest } = row;
 

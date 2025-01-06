@@ -91,28 +91,28 @@ export async function fetchAllExperimentData() {
     try {
         const results = await sql`
         SELECT 
-            e.experiment_id,
-            e.experiment_name,
-            e.system_prompt,
-            e.created_at AS experiment_created_at,
-            t.test_id,
-            t.test_case,
-            t.reference_answer,
-            t.model1_answer,
-            t.model2.answer,
-            ev.model_name,
-            ev.accuracy,
-            ev.clarity,
-            ev.relevancy,
-            ev.created_at AS evaluation_created_at
+        e.experiment_id,
+        e.experiment_name,
+        e.system_prompt,
+        e.created_at AS experiment_created_at,
+        t.test_id,
+        t.test_case,
+        t.reference_answer,
+        t.model1_answer,
+        t.model2_answer,
+        ev.model_name,
+        ev.accuracy,
+        ev.clarity,
+        ev.relevancy,
+        ev.created_at AS evaluation_created_at
         FROM 
-            experiments e
+        experiments e
         LEFT JOIN 
-            test_cases t ON e.experiment_id = t.experiment_id
+        test_cases t ON e.experiment_id = t.experiment_id
         LEFT JOIN 
-            evaluation_results ev ON t.test_id = ev.test_id
+        evaluation_results ev ON t.test_id = ev.test_id
         ORDER BY 
-            e.experiment_id, t.test_id, ev.model_name;
+        e.experiment_id, t.test_id, ev.model_name
         `;
 
         return results.rows;
