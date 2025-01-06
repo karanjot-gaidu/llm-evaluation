@@ -118,6 +118,7 @@ export default function Home() {
                   <input
                     type="text"
                     value={testCase.input || ''}
+                    suppressHydrationWarning
                     onChange={(e) =>
                       setTestCases([
                         ...testCases.slice(0, index),
@@ -133,6 +134,7 @@ export default function Home() {
                   <input
                     type="text"
                     value={testCase.referenceAnswer || ''}
+                    suppressHydrationWarning
                     onChange={(e) =>
                       setTestCases([
                         ...testCases.slice(0, index),
@@ -150,6 +152,7 @@ export default function Home() {
           <div className="mt-4 space-x-4">
             <button
               onClick={handleAddTestCase}
+              suppressHydrationWarning
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Add Test Case
@@ -157,6 +160,7 @@ export default function Home() {
             <button
               onClick={evaluateTestCases}
               disabled={loading}
+              suppressHydrationWarning
               className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
             >
               {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
