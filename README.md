@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 LLM Evaluation App
 
-## Getting Started
+An innovative application leveraging Large Language Models (LLMs) to evaluate the responses of other LLMs. Built with **Next.js** and **TypeScript**, this app provides a streamlined platform to benchmark and compare LLM outputs across various domains.
 
-First, run the development server:
+## ⚙️ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **System Role Definition:** Define roles (e.g., customer support, medical assistant, tutor) to set context for evaluations.
+- **Test Cases & Reference Answers:** Create test scenarios with ideal responses.
+- **Dual-Layer LLM Workflow:** One LLM generates answers while another evaluates them based on predefined criteria.
+- **Data Persistence:** Store experiments securely in a **Neon Postgres Database**.
+- **Scalability:** Flexible architecture to support multiple LLM integrations.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend:** Next.js, TypeScript, React
+- **Backend:** API Routes in Next.js
+- **Database:** Neon Postgres
+- **LLM Integration:** Groq SDK
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Installation
 
-## Learn More
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/karanjot-gaidu/llm-evaluation.git
+   ```
+2. Navigate to the project folder:
+   ```bash
+   cd llm-evaluation
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Create a `.env.local` file and add your API keys:
+   ```env
+   GROQ_API_KEY=your_api_key
+   DATABASE_URL=your_neon_database_url
+   ```
+5. Run the development server:
+   ```bash
+   npm run dev
+   ```
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+## 🧠 How It Works
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Define System Role:** Set the behavior of the LLM (e.g., medical assistant, tutor).
+2. **Add Test Cases:** Provide scenarios and reference answers.
+3. **Generate & Evaluate:** One LLM generates answers, and another evaluates based on criteria.
+4. **View Results:** Results are stored in the Neon Postgres database and displayed in the UI.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📲 Connect
 
-## Deploy on Vercel
+- **GitHub:** [Repository Link](https://github.com/karanjot-gaidu/llm-evaluation)
+- **Demo Video:** [YouTube Link](https://youtu.be/fIPjw-HLQcg)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If you found this project useful, give it a ⭐ on GitHub!
